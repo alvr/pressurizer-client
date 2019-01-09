@@ -1,0 +1,48 @@
+language: node_js
+
+node_js:
+  - node
+
+cache:
+  yarn: true
+  directories:
+    - node_modules
+    - ~/.npm
+    - ~/.cache
+    - dist
+
+stages:
+  - test
+  - build
+  - deploy
+
+before_install:
+  - curl -o- -L https://yarnpkg.com/install.sh | bash
+  - export PATH="$HOME/.yarn/bin:$PATH"
+
+before_deploy:
+  - yarn add netlify-cli
+
+after_deploy:
+  - rm -rf dist
+
+jobs:
+  include:
+    - stage: test
+      name: "Unit Tests (Mocha + Chai)"
+      script: yarn test:unit
+    - name: "E2E Tests (Cypress)"
+      script: yarn test:e2e
+    - stage: build
+      name: "Build Pressurizer"
+      script: yarn build
+    - stage: deploy
+      name: "Deploy to Netlify"
+      install: skip
+      script: skip
+      deploy:
+        provider: script
+        skip_cleanup: true
+        script: netlify deploy -d ./dist -p
+        on:
+          branch: master
