@@ -1,6 +1,6 @@
-describe('My First Test', () => {
-  it('Visits the app root url', () => {
+describe('Index', () => {
+  it('Visit homepage', () => {
     cy.visit('/')
-    cy.contains('h1', 'Welcome to Your Vue.js + TypeScript App')
+    cy.get('.v-toolbar__title').contains('Pressurizer')
   })
 })

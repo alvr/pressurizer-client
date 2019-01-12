@@ -13,10 +13,11 @@
     "baseUrl": ".",
     "keyofStringsOnly": true,
     "types": [
-      "webpack-env",
-      "mocha",
       "chai",
-      "cypress"
+      "cypress",
+      "mocha",
+      "webpack-env",
+      "vuetify"
     ],
     "paths": {
       "@/*": [
