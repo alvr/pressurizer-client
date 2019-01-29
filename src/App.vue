@@ -9,7 +9,7 @@
 
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
-  import Toolbar from './components/Toolbar.vue'
+  import Toolbar from '@/components/Toolbar.vue'
 
   @Component({
     components: {
