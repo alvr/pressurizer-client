@@ -35,4 +35,5 @@ module.exports = {
       msTileImage: "img/icons/mstile-150x150.png",
     },
   },
+  transpileDependencies: ["vuetify", "vuex-persist"],
 };

@@ -5,6 +5,7 @@ import Vuetify, {
   VApp,
   VBtn,
   VContent,
+  VIcon,
   VSpacer,
   VToolbar,
   VToolbarItems,
@@ -14,11 +15,12 @@ import Vuetify, {
 import colors from 'vuetify/es5/util/colors'
 
 Vue.use(Vuetify, {
-  iconfont: 'md',
+  iconfont: 'mdi',
   components: {
     VApp,
     VBtn,
     VContent,
+    VIcon,
     VSpacer,
     VToolbar,
     VToolbarItems,
