@@ -1,7 +1,7 @@
 import es from '../../../src/locale/es'
 import en from '../../../src/locale/en'
 
-describe('Index', () => {
+describe('Guest user homepage', () => {
   before(() => {
     cy.visit('/')
   })
@@ -19,24 +19,28 @@ describe('Index', () => {
         })
     })
 
-    it('change language', () => {
+    it('change language to spanish', () => {
       cy.get('.v-menu')
         .click()
         .find('.v-list > :nth-child(2)')
         .trigger('mouseover')
+        .wait(100)
         .click()
         .then(() => {
-          cy.get('.v-btn')
+          cy.get('.v-toolbar__items > .v-btn:first-child')
             .contains(es.toolbar.login)
         })
+    })
 
+    it('change language to english', () => {
       cy.get('.v-menu')
         .click()
         .find('.v-list > :nth-child(1)')
         .trigger('mouseover')
+        .wait(100)
         .click()
         .then(() => {
-          cy.get('.v-btn')
+          cy.get('.v-toolbar__items > .v-btn:first-child')
             .contains(en.toolbar.login)
         })
     })
