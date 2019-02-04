@@ -29,7 +29,7 @@ describe('Toolbar.vue', () => {
 
   it('at least one button', () => {
     const toolbarItems = toolbarWrapper.find('.v-toolbar__items')
-    expect(toolbarItems.element.childElementCount).to.not.eq(0)
+    expect(toolbarItems.element.childElementCount).to.be.greaterThan(0)
   })
 
   it('first button is login', () => {
@@ -47,5 +47,6 @@ describe('Toolbar.vue', () => {
     expect(loginButton.textContent!.trim()).to.eq('Logout')
     i18n.locale = 'es'
     expect(loginButton.textContent!.trim()).to.eq('Salir')
+    await store.dispatch('token', '')
   })
 })
