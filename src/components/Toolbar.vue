@@ -4,15 +4,16 @@
     <v-spacer />
     <v-toolbar-items class="hidden-sm-and-down">
       <template v-if="!isLogged">
-        <v-btn flat :href="loginUrl">Login
+        <v-btn flat :href="loginUrl">{{ $t('toolbar.login') }}
           <v-icon right>mdi-login-variant</v-icon>
         </v-btn>
       </template>
       <template v-else>
-        <v-btn flat @click="logout">Logout
+        <v-btn flat @click="logout">{{ $t('toolbar.logout') }}
           <v-icon right>mdi-logout-variant</v-icon>
         </v-btn>
       </template>
+      <lang-selector />
     </v-toolbar-items>
   </v-toolbar>
 </template>
@@ -20,8 +21,13 @@
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
   import { config } from '@/config'
+  import LangSelector from '@/components/LangSelector.vue'
 
-  @Component
+  @Component({
+    components: {
+      LangSelector,
+    },
+  })
   export default class Toolbar extends Vue {
     get loginUrl() {
       return `${config.apiUrl}/login`

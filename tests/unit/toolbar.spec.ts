@@ -1,16 +1,25 @@
 import { expect } from 'chai'
 import { mount, Wrapper } from '@vue/test-utils'
-import Toolbar from '@/components/Toolbar.vue'
-import Vuetify from 'vuetify'
 import Vue from 'vue'
+import Vuetify from 'vuetify'
+import Toolbar from '@/components/Toolbar.vue'
+import { i18n } from '@/locale/i18n'
+import store from '@/store'
 
 Vuetify.install(Vue)
 
 describe('Toolbar.vue', () => {
-  let toolbarWrapper: Wrapper<any>
+  let toolbarWrapper: Wrapper<Toolbar>
+
+  before(() => {
+    toolbarWrapper = mount(Toolbar, {
+      i18n,
+      store,
+    })
+  })
 
   beforeEach(() => {
-    toolbarWrapper = mount(Toolbar)
+    i18n.locale = 'en'
   })
 
   it('toolbar title', () => {
@@ -26,6 +35,17 @@ describe('Toolbar.vue', () => {
   it('first button is login', () => {
     const toolbarItems = toolbarWrapper.find('.v-toolbar__items')
     const loginButton = toolbarItems.element.firstElementChild!
-    expect(loginButton.textContent).to.eq('Login')
+    expect(loginButton.textContent!.trim()).to.eq('Login')
+    i18n.locale = 'es'
+    expect(loginButton.textContent!.trim()).to.eq('Acceder')
+  })
+
+  it('if logged, logout button must appear', async () => {
+    await store.dispatch('token', 'token_test')
+    const toolbarItems = toolbarWrapper.find('.v-toolbar__items')
+    const loginButton = toolbarItems.element.firstElementChild!
+    expect(loginButton.textContent!.trim()).to.eq('Logout')
+    i18n.locale = 'es'
+    expect(loginButton.textContent!.trim()).to.eq('Salir')
   })
 })

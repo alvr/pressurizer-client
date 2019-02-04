@@ -6,13 +6,17 @@ import Vuetify, {
   VBtn,
   VContent,
   VIcon,
+  VList,
+  VListTile,
+  VListTileTitle,
+  VMenu,
   VSpacer,
   VToolbar,
   VToolbarItems,
   VToolbarTitle,
 } from 'vuetify/lib'
 
-import colors from 'vuetify/es5/util/colors'
+import colors from 'vuetify/lib/util/colors'
 
 Vue.use(Vuetify, {
   iconfont: 'mdi',
@@ -21,6 +25,10 @@ Vue.use(Vuetify, {
     VBtn,
     VContent,
     VIcon,
+    VList,
+    VListTile,
+    VListTileTitle,
+    VMenu,
     VSpacer,
     VToolbar,
     VToolbarItems,

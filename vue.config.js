@@ -21,7 +21,7 @@ module.exports = {
       new webpack.DefinePlugin({
         "process.env.VUE_APP_BACKEND": JSON.stringify(process.env.BACKEND),
       })
-    ]
+    ],
   },
   pwa: {
     name: "Pressurizer",
@@ -35,5 +35,5 @@ module.exports = {
       msTileImage: "img/icons/mstile-150x150.png",
     },
   },
-  transpileDependencies: ["vuetify", "vuex-persist"],
+  transpileDependencies: ["vuex-persist"],
 };
