@@ -6,6 +6,9 @@ import '@/registerServiceWorker'
 import '@/vuetify'
 import { i18n } from '@/locale/i18n'
 
+import 'roboto-fontface/css/roboto/roboto-fontface.css'
+import '@mdi/font/css/materialdesignicons.css'
+
 Vue.config.productionTip = false
 
 new Vue({
