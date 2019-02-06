@@ -35,12 +35,8 @@ export default new Vuex.Store<State>({
     },
   },
   getters: {
-    language: (state) => {
-      return state.language
-    },
-    token: (state) => {
-      return state.token
-    },
+    language: (state) => state.language,
+    token: (state) => state.token,
   },
   plugins: [vuexLocal.plugin],
 })

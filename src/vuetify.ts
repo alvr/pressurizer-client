@@ -1,34 +1,48 @@
 import Vue from 'vue'
-
-import 'vuetify/src/stylus/app.styl'
+import '@/main.styl'
+import colors from 'vuetify/lib/util/colors'
 import Vuetify, {
   VApp,
   VBtn,
+  VCard,
+  VCardText,
+  VCardTitle,
+  VContainer,
   VContent,
+  VFlex,
+  VFooter,
   VIcon,
+  VLayout,
   VList,
   VListTile,
   VListTileTitle,
   VMenu,
+  VParallax,
   VSpacer,
   VToolbar,
   VToolbarItems,
   VToolbarTitle,
 } from 'vuetify/lib'
 
-import colors from 'vuetify/lib/util/colors'
-
 Vue.use(Vuetify, {
   iconfont: 'mdi',
   components: {
     VApp,
     VBtn,
+    VCard,
+    VCardText,
+    VCardTitle,
+    VContainer,
     VContent,
+    VFlex,
+    VFooter,
     VIcon,
+    VLayout,
     VList,
     VListTile,
     VListTileTitle,
     VMenu,
+    VParallax,
     VSpacer,
     VToolbar,
     VToolbarItems,
