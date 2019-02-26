@@ -1,5 +1,8 @@
 export default {
+  close: 'Cerrar',
+  save: 'Guardar',
   toolbar: {
+    account: 'Cuenta',
     login: 'Acceder',
     logout: 'Salir',
   },
@@ -20,5 +23,21 @@ export default {
       desc: 'Pressurizer es rápido. Procese su biblioteca en menos de siete minutos. ' +
         '(Estimación para una biblioteca de 1200 juegos).',
     },
+  },
+  table: {
+    header: {
+      title: 'Nombre',
+      cost: 'Coste',
+      hours: 'Horas',
+      costHours: 'Coste/Horas',
+      finished: '¿Finalizado?',
+    },
+    noGames: 'Lo siento, no hay nada que mostrar aquí :(',
+    gameMarkedAsFinished: '{title} ha sido marcado como finalizado.',
+    gameMarkedAsNotFinished: '{title} ha sido marcado como no finalizado.',
+    gameUpdatedCost: '{title} ahora cuesta {cost}',
+  },
+  errors: {
+    priceOutOfBounds: 'El valor debe de estar entre 0 y 999999999.',
   },
 }

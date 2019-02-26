@@ -1,14 +1,18 @@
 <template>
   <main>
-    <landing v-if="!isLogged" />
+      <landing v-if="!isLogged" />
+      <game-list v-else />
   </main>
 </template>
 
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
   import Landing from '@/components/Landing.vue'
+  import GameList from '@/components/GameList.vue'
+
   @Component({
     components: {
+      GameList,
       Landing,
     },
   })
