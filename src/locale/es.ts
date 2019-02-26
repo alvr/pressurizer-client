@@ -40,4 +40,9 @@ export default {
   errors: {
     priceOutOfBounds: 'El valor debe de estar entre 0 y 999999999.',
   },
+  account: {
+    saved: 'Ajustes guardados.',
+    saveError: 'Error al guardar los ajustes.',
+    country: 'Selecciona tu país',
+  },
 }

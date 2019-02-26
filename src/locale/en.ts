@@ -38,4 +38,9 @@ export default {
   errors: {
     priceOutOfBounds: 'The value must be between 0 and 999999999.',
   },
+  account: {
+    saved: 'Settings saved.',
+    saveError: 'Error when saving settings.',
+    country: 'Select your country',
+  },
 }

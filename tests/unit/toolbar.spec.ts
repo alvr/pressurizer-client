@@ -15,6 +15,7 @@ describe('Toolbar.vue', () => {
     toolbarWrapper = mount(Toolbar, {
       i18n,
       store,
+      stubs: ['router-link'],
     })
   })
 
@@ -43,10 +44,20 @@ describe('Toolbar.vue', () => {
   it('if logged, logout button must appear', async () => {
     await store.dispatch('token', 'token_test')
     const toolbarItems = toolbarWrapper.find('.v-toolbar__items')
-    const loginButton = toolbarItems.element.firstElementChild!
+    const loginButton = toolbarItems.element.children.item(1)!
     expect(loginButton.textContent!.trim()).to.eq('Logout')
     i18n.locale = 'es'
     expect(loginButton.textContent!.trim()).to.eq('Salir')
+    await store.dispatch('token', '')
+  })
+
+  it('if logged, first button is account', async () => {
+    await store.dispatch('token', 'token_test')
+    const toolbarItems = toolbarWrapper.find('.v-toolbar__items')
+    const loginButton = toolbarItems.element.firstElementChild!
+    expect(loginButton.textContent!.trim()).to.eq('Account')
+    i18n.locale = 'es'
+    expect(loginButton.textContent!.trim()).to.eq('Cuenta')
     await store.dispatch('token', '')
   })
 })

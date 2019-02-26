@@ -1,6 +1,10 @@
 <template>
   <v-toolbar color="primary" app>
-    <v-toolbar-title>Pressurizer</v-toolbar-title>
+    <router-link class="toolbar-title" to="/">
+      <v-toolbar-title>
+        Pressurizer
+      </v-toolbar-title>
+    </router-link>
     <v-spacer />
     <v-toolbar-items class="hidden-sm-and-down">
       <template v-if="!isLogged">
@@ -9,6 +13,9 @@
         </v-btn>
       </template>
       <template v-else>
+        <v-btn flat to="/account">{{ $t('toolbar.account') }}
+          <v-icon right>mdi-account</v-icon>
+        </v-btn>
         <v-btn flat @click="logout">{{ $t('toolbar.logout') }}
           <v-icon right>mdi-logout-variant</v-icon>
         </v-btn>
@@ -42,3 +49,9 @@
     }
   }
 </script>
+
+<style scoped lang="stylus">
+  .toolbar-title
+    color: inherit
+    text-decoration: inherit
+</style>
