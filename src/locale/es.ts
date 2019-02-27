@@ -1,10 +1,15 @@
 export default {
   close: 'Cerrar',
   save: 'Guardar',
+  hours: '{h} hora | {h} horas',
+  minutes: '{m} minuto | {m} minutos',
+  gamesNew: '{n} juego nuevo | {n} juegos nuevos',
+  gamesUpdated: '{u} juego actualizado | {u} juegos actualizados',
   toolbar: {
     account: 'Cuenta',
     login: 'Acceder',
     logout: 'Salir',
+    update: 'Actualizar juegos',
   },
   landing: {
     subtitle: '¿Cuánto he gastado en Steam?',
@@ -36,9 +41,11 @@ export default {
     gameMarkedAsFinished: '{title} ha sido marcado como finalizado.',
     gameMarkedAsNotFinished: '{title} ha sido marcado como no finalizado.',
     gameUpdatedCost: '{title} ahora cuesta {cost}',
+    gameListUpdated: '{0} y {1}.',
   },
   errors: {
     priceOutOfBounds: 'El valor debe de estar entre 0 y 999999999.',
+    waitHours: 'Debes esperar {0} y {1} antes de volver a actualizar tu biblioteca de nuevo.',
   },
   account: {
     saved: 'Ajustes guardados.',
