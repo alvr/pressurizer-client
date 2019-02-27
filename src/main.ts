@@ -15,6 +15,9 @@ Vue.config.productionTip = false
 Vue.use(VueAxios, axios.create({
   baseURL: config.apiUrl,
   timeout: 0,
+  headers: {
+    Authorization: `Bearer ${store.getters.token}`,
+  },
 }))
 
 new Vue({
