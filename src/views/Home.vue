@@ -1,7 +1,7 @@
 <template>
   <main>
       <landing v-if="!isLogged" />
-      <game-list v-else />
+      <game-list :key="gameListVersion" v-else />
   </main>
 </template>
 
@@ -19,6 +19,10 @@
   export default class Home extends Vue {
     get isLogged() {
       return this.$store.getters.token
+    }
+
+    get gameListVersion() {
+      return this.$store.getters.gameList
     }
   }
 </script>

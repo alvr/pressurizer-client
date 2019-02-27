@@ -70,10 +70,6 @@
               </template>
             </v-data-table>
           </v-card>
-          <v-snackbar v-model="snack" :color="snackColor">
-            {{ snackText }}
-            <v-btn flat @click="snack = false">{{ $t('close') }}</v-btn>
-          </v-snackbar>
         </v-flex>
       </v-layout>
     </v-container>
@@ -86,6 +82,8 @@
   import { Game } from '@/models/Game'
   import { Stats } from '@/models/Stats'
   import * as LocaleCurrency from 'locale-currency'
+  import { SnackbarMessage } from '@/models/SnackbarMessage'
+  import { EventBus } from '@/event-bus'
 
   @Component
   export default class GameList extends Vue {
@@ -118,10 +116,6 @@
       },
     ]
 
-    snack = false
-    snackColor = ''
-    snackText = ''
-
     minValue = (c: number) => (c >= 0 && c <= 999999999) || this.$root.$t('errors.priceOutOfBounds') as string
 
     mounted() {
@@ -142,10 +136,13 @@
       }
       this.$http.patch('/updateGame', data)
         .then(async () => {
-          this.snack = true
-          this.snackText = finished ? this.$t('table.gameMarkedAsFinished', {title}) as string
-            : this.$t('table.gameMarkedAsNotFinished', {title}) as string
-          this.snackColor = 'success'
+          const msg: SnackbarMessage = {
+            message: finished ? this.$t('table.gameMarkedAsFinished', {title}) as string
+              : this.$t('table.gameMarkedAsNotFinished', {title}) as string,
+            color: 'success',
+          }
+
+          EventBus.$emit('show-snackbar', msg as SnackbarMessage)
         })
     }
 
@@ -156,9 +153,12 @@
       }
       this.$http.patch('/updateGame', data)
         .then(async () => {
-          this.snack = true
-          this.snackText = this.$t('table.gameUpdatedCost', {title, cost}) as string
-          this.snackColor = 'success'
+          const msg: SnackbarMessage = {
+            message: this.$t('table.gameUpdatedCost', {title, cost}) as string,
+            color: 'success',
+          }
+
+          EventBus.$emit('show-snackbar', msg as SnackbarMessage)
         })
     }
 

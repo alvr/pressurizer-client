@@ -5,6 +5,7 @@
       <router-view />
     </v-content>
     <custom-footer />
+    <snackbar />
   </v-app>
 </template>
 
@@ -13,9 +14,11 @@
   import CustomFooter from '@/components/CustomFooter.vue'
   import Toolbar from '@/components/Toolbar.vue'
   import { i18n } from '@/locale/i18n'
+  import Snackbar from '@/components/Snackbar.vue'
 
   @Component({
     components: {
+      Snackbar,
       CustomFooter,
       Toolbar,
     },

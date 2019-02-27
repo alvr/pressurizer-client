@@ -19,24 +19,18 @@
         <v-btn @click="updateCountry">{{ $t('save') }}</v-btn>
       </v-layout>
     </v-container>
-    <v-snackbar v-model="snack" :color="snackColor">
-      {{ snackText }}
-      <v-btn flat @click="snack = false">{{ $t('close') }}</v-btn>
-    </v-snackbar>
   </main>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import { SnackbarMessage } from '@/models/SnackbarMessage'
+import { EventBus } from '@/event-bus'
 
 @Component
 export default class Account extends Vue {
   countries: Country[] = []
   userCountry = {} as Country
-
-  snack = false
-  snackColor = ''
-  snackText = ''
 
   mounted() {
     this.$http.get('/countries')
@@ -53,19 +47,28 @@ export default class Account extends Vue {
       if (typeof country === 'string') {
         this.$http.patch('/updateCountry', {code: country})
           .then(() => {
-            this.snack = true
-            this.snackText = this.$t('account.saved') as string
-            this.snackColor = 'success'
+            const data: SnackbarMessage = {
+              message: this.$t('account.saved') as string,
+              color: 'success',
+            }
+
+            EventBus.$emit('show-snackbar', data as SnackbarMessage)
           })
       } else {
-        this.snack = true
-        this.snackText = this.$t('account.saveError') as string
-        this.snackColor = 'error'
+        const data: SnackbarMessage = {
+          message: this.$t('account.saveError') as string,
+          color: 'error',
+        }
+
+        EventBus.$emit('show-snackbar', data as SnackbarMessage)
       }
     } catch (e) {
-      this.snack = true
-      this.snackText = this.$t('account.saveError') as string
-      this.snackColor = 'error'
+      const data: SnackbarMessage = {
+        message: this.$t('account.saveError') as string,
+        color: 'error',
+      }
+
+      EventBus.$emit('show-snackbar', data as SnackbarMessage)
     }
   }
 }
