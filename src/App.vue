@@ -1,32 +1,59 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <v-app dark>
+    <toolbar />
+    <v-content>
+      <router-view />
+    </v-content>
+    <custom-footer />
+    <snackbar />
+  </v-app>
 </template>
 
-<style lang="less">
-  #app {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-  }
+<script lang="ts">
+  import { Component, Vue } from 'vue-property-decorator'
+  import CustomFooter from '@/components/CustomFooter.vue'
+  import Toolbar from '@/components/Toolbar.vue'
+  import { i18n } from '@/locale/i18n'
+  import Snackbar from '@/components/Snackbar.vue'
 
-  #nav {
-    padding: 30px;
+  @Component({
+    components: {
+      Snackbar,
+      CustomFooter,
+      Toolbar,
+    },
+  })
+  export default class App extends Vue {
+    async created() {
+      i18n.locale = this.$store.getters.language
+      await this.saveToken()
+      await this.verifyToken()
+    }
 
-    a {
-      font-weight: bold;
-      color: #2c3e50;
+    private async saveToken() {
+      if (location.hash) {
+        const token = location.hash.split('#token=').pop()
+        if (token) {
+          await this.$store.dispatch('token', token)
+          history.replaceState({}, document.title, '.')
+        }
+      }
+    }
 
-      &.router-link-exact-active {
-        color: #42b983;
+    private async verifyToken() {
+      if (this.$store.getters.token) {
+        const data = { token: this.$store.getters.token }
+        this.$http.post('/token', data).catch(
+          async () => {
+            await this.$store.dispatch('token', '')
+          },
+        )
       }
     }
   }
+</script>
+
+<style lang="stylus">
+  html
+    overflow-y auto !important
 </style>
