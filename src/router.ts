@@ -19,5 +19,9 @@ export default new Router({
       name: 'account',
       component: Account,
     },
+    {
+      path: '*',
+      redirect: '/',
+    },
   ],
 })

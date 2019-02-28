@@ -9,6 +9,7 @@ import '@/registerServiceWorker'
 import '@/vuetify'
 import { i18n } from '@/locale/i18n'
 import { config } from '@/config'
+import { EventBus } from '@/event-bus'
 
 Vue.config.productionTip = false
 
@@ -19,6 +20,28 @@ Vue.use(VueAxios, axios.create({
     Authorization: `Bearer ${store.getters.token}`,
   },
 }))
+
+router.beforeEach((to, from, next) => {
+  const publicPages = ['/']
+  const authRequired = !publicPages.includes(to.path)
+  const loggedIn = store.getters.token
+
+  if (authRequired) {
+    if (!loggedIn) {
+      return next('/')
+    } else {
+      const data = { token: loggedIn }
+      EventBus.$http.post('/token', data).catch(
+        async () => {
+          await store.dispatch('token', '')
+          return next('/')
+        },
+      )
+    }
+  }
+
+  next()
+})
 
 new Vue({
   i18n,

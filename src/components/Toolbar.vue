@@ -37,12 +37,8 @@
             </router-link>
           </div>
           <template v-if="!isLogged">
-            <v-card>
-              <v-card-text>
-                <v-btn flat :href="loginUrl">{{ $t('toolbar.login') }}
-                  <v-icon right>mdi-steam-box</v-icon>
-                </v-btn>
-              </v-card-text>
+            <v-card :href="loginUrl">
+              <v-card-text>{{ $t('toolbar.login') }}</v-card-text>
             </v-card>
           </template>
           <template v-else>
@@ -68,6 +64,7 @@
   import LangSelector from '@/components/LangSelector.vue'
   import { EventBus } from '@/event-bus'
   import { SnackbarMessage } from '@/models/SnackbarMessage'
+  import router from '@/router'
 
   @Component({
     components: {
@@ -86,7 +83,9 @@
     }
 
     async logout() {
+      await this.$store.dispatch('gameList', 0)
       await this.$store.dispatch('token', '')
+      router.push('home')
     }
 
     fetchGames() {
