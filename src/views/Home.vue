@@ -7,8 +7,8 @@
 
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
-  import Landing from '@/components/Landing.vue'
   import GameList from '@/components/GameList.vue'
+  import Landing from '@/components/Landing.vue'
 
   @Component({
     components: {

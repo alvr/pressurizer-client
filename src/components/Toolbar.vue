@@ -60,9 +60,10 @@
 
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
-  import { config } from '@/config'
   import LangSelector from '@/components/LangSelector.vue'
+  import { config } from '@/config'
   import { EventBus } from '@/event-bus'
+  import { http } from '@/http-client'
   import { SnackbarMessage } from '@/models/SnackbarMessage'
   import router from '@/router'
 
@@ -90,7 +91,7 @@
 
     fetchGames() {
       this.isUpdating = true
-      this.$http.post('/fetchGames')
+      http.post('/fetchGames')
         .then(async (res) => {
           this.isUpdating = true
 
