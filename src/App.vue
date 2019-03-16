@@ -12,14 +12,15 @@
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
   import CustomFooter from '@/components/CustomFooter.vue'
-  import Toolbar from '@/components/Toolbar.vue'
-  import { i18n } from '@/locale/i18n'
   import Snackbar from '@/components/Snackbar.vue'
+  import Toolbar from '@/components/Toolbar.vue'
+  import { http } from '@/http-client'
+  import { i18n } from '@/locale/i18n'
 
   @Component({
     components: {
-      Snackbar,
       CustomFooter,
+      Snackbar,
       Toolbar,
     },
   })
@@ -43,7 +44,7 @@
     private async verifyToken() {
       if (this.$store.getters.token) {
         const data = { token: this.$store.getters.token }
-        this.$http.post('/token', data).catch(
+        http.post('/token', data).catch(
           async () => {
             await this.$store.dispatch('token', '')
           },

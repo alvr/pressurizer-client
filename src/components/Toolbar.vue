@@ -1,39 +1,71 @@
 <template>
-  <v-toolbar color="primary" app>
-    <router-link class="toolbar-title" to="/">
-      <v-toolbar-title>
-        Pressurizer
-      </v-toolbar-title>
-    </router-link>
-    <v-spacer />
-    <v-toolbar-items class="hidden-sm-and-down">
-      <template v-if="!isLogged">
-        <v-btn flat :href="loginUrl">{{ $t('toolbar.login') }}
-          <v-icon right>mdi-steam-box</v-icon>
-        </v-btn>
-      </template>
-      <template v-else>
-        <v-btn flat @click="fetchGames" :disabled="isUpdating">{{ $t('toolbar.update') }}
-          <v-icon right>mdi-reload</v-icon>
-        </v-btn>
-        <v-btn flat to="/account">{{ $t('toolbar.account') }}
-          <v-icon right>mdi-account</v-icon>
-        </v-btn>
-        <v-btn flat @click="logout">{{ $t('toolbar.logout') }}
-          <v-icon right>mdi-logout-variant</v-icon>
-        </v-btn>
-      </template>
-      <lang-selector />
-    </v-toolbar-items>
-  </v-toolbar>
+  <nav>
+    <v-toolbar color="primary" class="hidden-sm-and-down" app>
+      <router-link class="toolbar-title" to="/">
+        <v-toolbar-title>
+          Pressurizer
+        </v-toolbar-title>
+      </router-link>
+      <v-spacer />
+      <v-toolbar-items>
+        <template v-if="!isLogged">
+          <v-btn flat :href="loginUrl">{{ $t('toolbar.login') }}
+            <v-icon right>mdi-steam-box</v-icon>
+          </v-btn>
+        </template>
+        <template v-else>
+          <v-btn flat @click="fetchGames" :disabled="isUpdating">{{ $t('toolbar.update') }}
+            <v-icon right>mdi-reload</v-icon>
+          </v-btn>
+          <v-btn flat to="/account">{{ $t('toolbar.account') }}
+            <v-icon right>mdi-account</v-icon>
+          </v-btn>
+          <v-btn flat @click="logout">{{ $t('toolbar.logout') }}
+            <v-icon right>mdi-logout-variant</v-icon>
+          </v-btn>
+        </template>
+        <lang-selector />
+      </v-toolbar-items>
+    </v-toolbar>
+
+    <div class="hidden-md-and-up">
+      <v-expansion-panel>
+        <v-expansion-panel-content>
+          <div slot="header">
+            <router-link class="nav-item nav-item-title" to="/">
+                Pressurizer
+            </router-link>
+          </div>
+          <template v-if="!isLogged">
+            <v-card :href="loginUrl">
+              <v-card-text>{{ $t('toolbar.login') }}</v-card-text>
+            </v-card>
+          </template>
+          <template v-else>
+            <v-card @click="fetchGames" :disabled="isUpdating">
+              <v-card-text>{{ $t('toolbar.update') }}</v-card-text>
+            </v-card>
+            <v-card to="/account">
+              <v-card-text>{{ $t('toolbar.account') }}</v-card-text>
+            </v-card>
+            <v-card @click="logout">
+              <v-card-text>{{ $t('toolbar.logout') }}</v-card-text>
+            </v-card>
+          </template>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </div>
+  </nav>
 </template>
 
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
-  import { config } from '@/config'
   import LangSelector from '@/components/LangSelector.vue'
+  import { config } from '@/config'
   import { EventBus } from '@/event-bus'
+  import { http } from '@/http-client'
   import { SnackbarMessage } from '@/models/SnackbarMessage'
+  import router from '@/router'
 
   @Component({
     components: {
@@ -52,12 +84,14 @@
     }
 
     async logout() {
+      await this.$store.dispatch('gameList', 0)
       await this.$store.dispatch('token', '')
+      router.push('home')
     }
 
     fetchGames() {
       this.isUpdating = true
-      this.$http.post('/fetchGames')
+      http.post('/fetchGames')
         .then(async (res) => {
           this.isUpdating = true
 
@@ -93,7 +127,7 @@
 </script>
 
 <style scoped lang="stylus">
-  .toolbar-title
+  .toolbar-title, .nav-item-title
     color: inherit
     text-decoration: inherit
 </style>
