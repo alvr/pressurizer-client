@@ -78,12 +78,13 @@
 
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
-  import { GamesWithStats } from '@/models/GamesWithStats'
-  import { Game } from '@/models/Game'
-  import { Stats } from '@/models/Stats'
   import * as LocaleCurrency from 'locale-currency'
-  import { SnackbarMessage } from '@/models/SnackbarMessage'
   import { EventBus } from '@/event-bus'
+  import { http } from '@/http-client'
+  import { Game } from '@/models/Game'
+  import { GamesWithStats } from '@/models/GamesWithStats'
+  import { SnackbarMessage } from '@/models/SnackbarMessage'
+  import { Stats } from '@/models/Stats'
 
   @Component
   export default class GameList extends Vue {
@@ -119,7 +120,7 @@
     minValue = (c: number) => (c >= 0 && c <= 999999999) || this.$root.$t('errors.priceOutOfBounds') as string
 
     mounted() {
-      this.$http.get('/allGames')
+      http.get('/allGames')
         .then((res) => {
           const gws = res.data as GamesWithStats
           this.games = gws.games
@@ -134,7 +135,7 @@
         appId,
         finished,
       }
-      this.$http.patch('/updateGame', data)
+      http.patch('/updateGame', data)
         .then(async () => {
           const msg: SnackbarMessage = {
             message: finished ? this.$t('table.gameMarkedAsFinished', {title}) as string
@@ -151,7 +152,7 @@
         appId,
         cost,
       }
-      this.$http.patch('/updateGame', data)
+      http.patch('/updateGame', data)
         .then(async () => {
           const msg: SnackbarMessage = {
             message: this.$t('table.gameUpdatedCost', {title, cost}) as string,

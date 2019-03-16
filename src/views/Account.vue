@@ -23,38 +23,47 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import { SnackbarMessage } from '@/models/SnackbarMessage'
-import { EventBus } from '@/event-bus'
+  import { Component, Vue } from 'vue-property-decorator'
+  import { EventBus } from '@/event-bus'
+  import { http } from '@/http-client'
+  import { SnackbarMessage } from '@/models/SnackbarMessage'
 
-@Component
-export default class Account extends Vue {
-  countries: Country[] = []
-  userCountry = {} as Country
+  @Component
+  export default class Account extends Vue {
+    countries: Country[] = []
+    userCountry = {} as Country
 
-  mounted() {
-    this.$http.get('/countries')
-      .then((res) => {
-        this.countries = res.data.countries as Country[]
-        this.userCountry = res.data.country as Country
-      })
-  }
+    mounted() {
+      http.get('/countries')
+        .then((res) => {
+          this.countries = res.data.countries as Country[]
+          this.userCountry = res.data.country as Country
+        })
+    }
 
-  updateCountry() {
-    try {
-      const country = this.userCountry.code
+    updateCountry() {
+      try {
+        const country = this.userCountry.code
 
-      if (typeof country === 'string') {
-        this.$http.patch('/updateCountry', {code: country})
-          .then(() => {
-            const data: SnackbarMessage = {
-              message: this.$t('account.saved') as string,
-              color: 'success',
-            }
+        if (typeof country === 'string') {
+          http.patch('/updateCountry', {code: country})
+            .then(() => {
+              const data: SnackbarMessage = {
+                message: this.$t('account.saved') as string,
+                color: 'success',
+              }
 
-            EventBus.$emit('show-snackbar', data as SnackbarMessage)
-          })
-      } else {
+              EventBus.$emit('show-snackbar', data as SnackbarMessage)
+            })
+        } else {
+          const data: SnackbarMessage = {
+            message: this.$t('account.saveError') as string,
+            color: 'error',
+          }
+
+          EventBus.$emit('show-snackbar', data as SnackbarMessage)
+        }
+      } catch (e) {
         const data: SnackbarMessage = {
           message: this.$t('account.saveError') as string,
           color: 'error',
@@ -62,14 +71,6 @@ export default class Account extends Vue {
 
         EventBus.$emit('show-snackbar', data as SnackbarMessage)
       }
-    } catch (e) {
-      const data: SnackbarMessage = {
-        message: this.$t('account.saveError') as string,
-        color: 'error',
-      }
-
-      EventBus.$emit('show-snackbar', data as SnackbarMessage)
     }
   }
-}
 </script>
