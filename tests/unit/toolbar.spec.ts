@@ -44,7 +44,7 @@ describe('Toolbar.vue', () => {
   it('if logged, logout button must appear', async () => {
     await store.dispatch('token', 'token_test')
     const toolbarItems = toolbarWrapper.find('.v-toolbar__items')
-    const loginButton = toolbarItems.element.children.item(2)!
+    const loginButton = toolbarItems.element.children.item(3)!
     expect(loginButton.textContent!.trim()).to.eq('Logout')
     i18n.locale = 'es'
     expect(loginButton.textContent!.trim()).to.eq('Salir')

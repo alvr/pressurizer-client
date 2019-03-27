@@ -77,8 +77,8 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator'
   import * as LocaleCurrency from 'locale-currency'
+  import { Component, Vue } from 'vue-property-decorator'
   import { EventBus } from '@/event-bus'
   import { http } from '@/http-client'
   import { Game } from '@/models/Game'
@@ -120,7 +120,7 @@
     minValue = (c: number) => (c >= 0 && c <= 999999999) || this.$root.$t('errors.priceOutOfBounds') as string
 
     mounted() {
-      http.get('/allGames')
+      http.get('/games')
         .then((res) => {
           const gws = res.data as GamesWithStats
           this.games = gws.games
@@ -130,12 +130,12 @@
         })
     }
 
-    async updateFinished(appId: string, title: string, finished: boolean) {
+    private async updateFinished(appId: string, title: string, finished: boolean) {
       const data = {
         appId,
         finished,
       }
-      http.patch('/updateGame', data)
+      http.patch('/games', data)
         .then(async () => {
           const msg: SnackbarMessage = {
             message: finished ? this.$t('table.gameMarkedAsFinished', {title}) as string
@@ -147,12 +147,12 @@
         })
     }
 
-    async updateCost(appId: string, title: string, cost: number) {
+    private async updateCost(appId: string, title: string, cost: number) {
       const data = {
         appId,
         cost,
       }
-      http.patch('/updateGame', data)
+      http.patch('/games', data)
         .then(async () => {
           const msg: SnackbarMessage = {
             message: this.$t('table.gameUpdatedCost', {title, cost}) as string,
@@ -163,11 +163,11 @@
         })
     }
 
-    parseTime(time: number): string {
+    private parseTime(time: number): string {
       return `${Math.floor(time / 60)}` + 'h ' + ('0' + time % 60).slice(-2) + 'm'
     }
 
-    toCurrency(cost: number): string {
+    private toCurrency(cost: number): string {
       return cost.toLocaleString(this.country, {
         style: 'currency',
         currency: LocaleCurrency.getCurrency(this.country),

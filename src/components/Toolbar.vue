@@ -17,6 +17,9 @@
           <v-btn flat @click="fetchGames" :disabled="isUpdating">{{ $t('toolbar.update') }}
             <v-icon right>mdi-reload</v-icon>
           </v-btn>
+          <v-btn flat to="/wishlist">{{ $t('toolbar.wishlist') }}
+            <v-icon right>mdi-cash-multiple</v-icon>
+          </v-btn>
           <v-btn flat to="/account">{{ $t('toolbar.account') }}
             <v-icon right>mdi-account</v-icon>
           </v-btn>
@@ -44,6 +47,9 @@
           <template v-else>
             <v-card @click="fetchGames" :disabled="isUpdating">
               <v-card-text>{{ $t('toolbar.update') }}</v-card-text>
+            </v-card>
+            <v-card to="/wishlist">
+              <v-card-text>{{ $t('toolbar.wishlist') }}</v-card-text>
             </v-card>
             <v-card to="/account">
               <v-card-text>{{ $t('toolbar.account') }}</v-card-text>
@@ -75,23 +81,23 @@
   export default class Toolbar extends Vue {
     isUpdating = false
 
-    get loginUrl() {
+    private get loginUrl() {
       return `${config.apiUrl}/login`
     }
 
-    get isLogged() {
+    private get isLogged() {
       return this.$store.getters.token
     }
 
-    async logout() {
+    private async logout() {
       await this.$store.dispatch('gameList', 0)
       await this.$store.dispatch('token', '')
       router.push('home')
     }
 
-    fetchGames() {
+    private fetchGames() {
       this.isUpdating = true
-      http.post('/fetchGames')
+      http.post('/games')
         .then(async (res) => {
           this.isUpdating = true
 
