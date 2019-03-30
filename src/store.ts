@@ -8,6 +8,7 @@ interface State {
   language: string
   token: string
   gameList: number
+  country: string
 }
 
 const vuexLocal = new VuexPersistence<State>({
@@ -19,6 +20,7 @@ export default new Vuex.Store<State>({
     language: 'en',
     token: '',
     gameList: 0,
+    country: 'us',
   },
   mutations: {
     SET_LANGUAGE(state, lang) {
@@ -29,6 +31,9 @@ export default new Vuex.Store<State>({
     },
     SET_GAMELIST(state, gameList) {
       state.gameList = gameList
+    },
+    SET_COUNTRY(state, country) {
+      state.country = country
     },
   },
   actions: {
@@ -41,11 +46,15 @@ export default new Vuex.Store<State>({
     gameList({ commit }, gameList) {
       commit('SET_GAMELIST', gameList)
     },
+    country({ commit }, country) {
+      commit('SET_COUNTRY', country)
+    },
   },
   getters: {
     language: (state) => state.language,
     token: (state) => state.token,
     gameList: (state) => state.gameList,
+    country: (state) => state.country,
   },
   plugins: [vuexLocal.plugin],
 })

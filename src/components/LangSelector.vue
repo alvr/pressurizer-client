@@ -27,12 +27,12 @@
       { locale: 'es', name: 'Español' },
     ]
 
-    async changeLanguage(language: string) {
+    private async changeLanguage(language: string) {
       await this.$store.dispatch('language', language)
       i18n.locale = language
     }
 
-    activeLanguage(language: string) {
+    private activeLanguage(language: string) {
       if (language === i18n.locale) {
         return 'font-weight-bold'
       }
