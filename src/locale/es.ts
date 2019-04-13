@@ -10,6 +10,7 @@ export default {
     login: 'Acceder',
     logout: 'Salir',
     update: 'Actualizar juegos',
+    wishlist: 'Lista de deseados',
   },
   landing: {
     subtitle: '¿Cuánto he gastado en Steam?',
@@ -47,9 +48,19 @@ export default {
     priceOutOfBounds: 'El valor debe de estar entre 0 y 999999999.',
     waitHours: 'Debes esperar {0} y {1} antes de volver a actualizar tu biblioteca de nuevo.',
   },
+  wishlist: {
+    notYet: 'No disponible aún.',
+    updated: 'Lista de deseados actualizada.',
+    updateError: 'Error al actualizar la lista de deseados.',
+    emptyWishlistTitle: 'Lista de deseados vacía',
+    emptyWishlistMessage: 'No se han encontrado ningún juego en la lista de deseados. ' +
+      'Inicia una nueva búsqueda con el botón de abajo.',
+    updateWishlistButton: 'Actualizar lista de deseados',
+  },
   account: {
     saved: 'Ajustes guardados.',
     saveError: 'Error al guardar los ajustes.',
     country: 'Selecciona tu país',
+    shops: 'Seleccionar tiendas',
   },
 }

@@ -10,6 +10,7 @@ export default {
     login: 'Login',
     logout: 'Logout',
     update: 'Update games',
+    wishlist: 'Wishlist',
   },
   landing: {
     subtitle: 'How much have I spent on Steam?',
@@ -45,9 +46,18 @@ export default {
     priceOutOfBounds: 'The value must be between 0 and 999999999.',
     waitHours: 'You should wait {0} and {1} before updating your library again.',
   },
+  wishlist: {
+    notYet: 'Not yet available.',
+    updated: 'Wishlist updated.',
+    updateError: 'Error when updating wishlist.',
+    emptyWishlistTitle: 'Empty wishlist',
+    emptyWishlistMessage: 'You don\'t have any games added, update your wishlist with the button below.',
+    updateWishlistButton: 'Update wishlist',
+  },
   account: {
     saved: 'Settings saved.',
     saveError: 'Error when saving settings.',
     country: 'Select your country',
+    shops: 'Select shops',
   },
 }

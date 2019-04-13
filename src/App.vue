@@ -29,6 +29,12 @@
       i18n.locale = this.$store.getters.language
       await this.saveToken()
       await this.verifyToken()
+
+      http.get('/account')
+        .then(async (res) => {
+          const country = res.data.country.code
+          await this.$store.dispatch('country', country)
+        })
     }
 
     private async saveToken() {
