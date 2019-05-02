@@ -30,7 +30,15 @@
           >
           </v-select>
         </v-flex>
-        <v-btn @click="saveSettings">{{ $t('save') }}</v-btn>
+        <v-flex xs2>
+
+        </v-flex>
+        <v-flex xs10>
+          <v-btn color="rgba(255, 295, 0, 0.5)" @click="exportData">{{ $t('account.exportButtonText') }}</v-btn>
+          <v-btn color="rgba(0, 188, 255, 0.5)" @click="importData">{{ $t('account.importButtonText') }}</v-btn>
+          <v-btn color="rgba(255, 0, 61, 0.5)" @click="deleteAccount">{{ $t('account.deleteButtonText') }}</v-btn>
+        </v-flex>
+        <v-btn color="primary" @click="saveSettings">{{ $t('save') }}</v-btn>
       </v-layout>
     </v-container>
   </main>
@@ -41,6 +49,8 @@
   import { EventBus } from '@/event-bus'
   import { http } from '@/http-client'
   import { SnackbarMessage } from '@/models/SnackbarMessage'
+  import router from '@/router'
+  import fileDownload from 'js-file-download'
 
   @Component
   export default class Account extends Vue {
@@ -1199,6 +1209,112 @@
         })
         .catch(() => this.savingError = true)
         .finally(() => EventBus.$emit('show-snackbar', this.savingData()))
+    }
+
+    private deleteAccount() {
+      this.$swal({
+        buttonsStyling: false,
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonClass: 'v-btn theme--dark secondary',
+        confirmButtonText: this.$t('account.deleteButtonText') as string,
+        cancelButtonClass: 'v-btn theme--dark',
+        cancelButtonText: this.$t('account.deleteDialogCancel') as string,
+        title: this.$t('account.deleteDialogTitle') as string,
+        text: this.$t('account.deleteDialogMessage') as string,
+      }).then((result) => {
+        if (result.value) {
+          this.$swal({
+            type: 'warning',
+            showCancelButton: true,
+            showLoaderOnConfirm: true,
+            confirmButtonClass: 'v-btn theme--dark secondary',
+            confirmButtonText: this.$t('account.deleteButtonText') as string,
+            cancelButtonClass: 'v-btn theme--dark',
+            cancelButtonText: this.$t('account.deleteDialogCancel') as string,
+            title: this.$t('account.deleteDialogTitleConfirm') as string,
+            text: this.$t('account.deleteDialogMessageConfirm') as string,
+            preConfirm: () => {
+              http.delete('/account')
+                .then(async () => {
+                  const snack = {
+                    message: this.$t('account.deleteDialogDone') as string,
+                    color: 'success',
+                  } as SnackbarMessage
+
+                  await this.$store.dispatch('gameList', 0)
+                  await this.$store.dispatch('token', '')
+                  router.push('home')
+
+                  EventBus.$emit('show-snackbar', snack)
+                })
+                .catch(() => {
+                  const snack = {
+                    message: this.$t('account.saveError') as string,
+                    color: 'error',
+                  } as SnackbarMessage
+
+                  EventBus.$emit('show-snackbar', snack)
+                })
+            },
+          })
+        }
+      })
+    }
+
+    private exportData() {
+      http.get('/export', {responseType: 'blob'})
+        .then((res) => {
+          fileDownload(res.data, 'pressurizer_export.json')
+        })
+        .catch(() => {
+          const snack = {
+            message: this.$t('account.exportError') as string,
+            color: 'error',
+          } as SnackbarMessage
+
+          EventBus.$emit('show-snackbar', snack)
+        })
+    }
+
+    private async importData() {
+      const {value: file} = await this.$swal({
+        confirmButtonClass: 'v-btn theme--dark primary',
+        title: this.$t('account.importDialogTitle') as string,
+        input: 'file',
+        inputAttributes: {
+          accept: 'application/json',
+        },
+      })
+
+      if (file) {
+        const formData = new FormData()
+        formData.append('file', file)
+
+        http.post('/import',
+          formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          })
+          .then(() => {
+            const snack = {
+              message: this.$t('account.importSuccess') as string,
+              color: 'success',
+            } as SnackbarMessage
+
+            EventBus.$emit('show-snackbar', snack)
+          })
+          .catch(() => {
+            const snack = {
+              message: this.$t('account.importError') as string,
+              color: 'error',
+            } as SnackbarMessage
+
+            EventBus.$emit('show-snackbar', snack)
+          })
+      }
+
     }
 
     private savingData(): SnackbarMessage {

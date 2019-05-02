@@ -13,9 +13,7 @@
     "baseUrl": ".",
     "keyofStringsOnly": true,
     "types": [
-      "chai",
       "cypress",
-      "mocha",
       "webpack-env",
       "vuetify"
     ],
