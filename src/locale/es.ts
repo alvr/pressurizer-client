@@ -43,6 +43,11 @@ export default {
     gameMarkedAsNotFinished: '{title} ha sido marcado como no finalizado.',
     gameUpdatedCost: '{title} ahora cuesta {cost}',
     gameListUpdated: '{0} y {1}.',
+    statsAverageCost: 'Coste medio',
+    statsTotalCost: 'Coste total',
+    statsAverageTime: 'Tiempo jugado medio',
+    statsTotalTime: 'Tiempo jugado total',
+    statsAverageCostTime: 'Media coste / horas',
   },
   errors: {
     priceOutOfBounds: 'El valor debe de estar entre 0 y 999999999.',
