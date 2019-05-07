@@ -7,8 +7,11 @@ import '@/registerServiceWorker'
 import router from '@/router'
 import store from '@/store'
 import '@/vuetify'
+import VueSweetalert2 from 'vue-sweetalert2'
 
 Vue.config.productionTip = false
+
+Vue.use(VueSweetalert2)
 
 router.beforeEach((to, from, next) => {
   const publicPages = ['/']
