@@ -4,6 +4,21 @@
       <v-layout wrap>
         <v-flex xs12>
           <v-card>
+            <v-container fluid v-if="games.length !== 0">
+              <v-layout row wrap align-space-between justify-space-around fill-height text-xs-center>
+                <div><h1 class="stats-line">{{ toCurrency(stats.avgCostTime) }}</h1>
+                  <p>{{ $t('table.statsAverageCostTime') }}</p></div>
+                <div><h2 class="stats-line">{{ toCurrency(stats.avgCost) }}</h2>
+                  <p>{{ $t('table.statsAverageCost') }}</p></div>
+                <div><h2 class="stats-line">{{ toCurrency(stats.totalCost) }}</h2>
+                  <p>{{ $t('table.statsTotalCost') }}</p></div>
+                <div><h2 class="stats-line">{{ parseBigTime(stats.avgTime) }}</h2>
+                  <p>{{ $t('table.statsAverageTime') }}</p></div>
+                <div><h2 class="stats-line">{{ parseBigTime(stats.totalTime) }}</h2>
+                  <p>{{ $t('table.statsTotalTime') }}</p></div>
+              </v-layout>
+              <v-divider/>
+            </v-container>
             <v-card-title>
               <v-spacer></v-spacer>
               <v-text-field
@@ -90,7 +105,6 @@
   export default class GameList extends Vue {
     games: Game[] = []
     stats: Stats = {} as Stats
-    country = ''
 
     saveText = this.$root.$t('save')
     closeText = this.$root.$t('close')
@@ -125,7 +139,6 @@
           const gws = res.data as GamesWithStats
           this.games = gws.games
           this.stats = gws.stats
-          this.country = gws.country
           this.isLoading = false
         })
     }
@@ -167,13 +180,29 @@
       return `${Math.floor(time / 60)}` + 'h ' + ('0' + time % 60).slice(-2) + 'm'
     }
 
+    private parseBigTime(time: number): string {
+      const minutes = time % 60
+      const hours = Math.floor(time / 60 % 24)
+      const days = Math.floor(time / 24 / 60)
+
+      return days + 'd ' + hours + 'h ' + ('0' + minutes).slice(-2) + 'm'
+    }
+
     private toCurrency(cost: number): string {
-      return cost.toLocaleString(this.country, {
-        style: 'currency',
-        currency: LocaleCurrency.getCurrency(this.country),
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      })
+      if (cost !== undefined) {
+        return cost.toLocaleString(this.country, {
+          style: 'currency',
+          currency: LocaleCurrency.getCurrency(this.country),
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })
+      } else {
+        return ''
+      }
+    }
+
+    private get country() {
+      return this.$store.getters.country
     }
   }
 </script>
@@ -185,4 +214,10 @@
     margin 0
   .input-price input[type=number]
     -moz-appearance textfield
+  .stats-line
+    font-family 'Comfortaa', cursive !important
+  h1
+    font-size 3.75em
+  h2
+    font-size 2em
 </style>

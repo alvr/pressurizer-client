@@ -4,5 +4,4 @@ import { Game } from '@/models/Game'
 export interface GamesWithStats {
   stats: Stats
   games: Game[]
-  country: string
 }

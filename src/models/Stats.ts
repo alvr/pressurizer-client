@@ -1,5 +1,4 @@
 export interface Stats {
-  totalGames: number
   totalCost: number
   totalTime: number
   avgCost: number

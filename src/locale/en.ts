@@ -41,6 +41,11 @@ export default {
     gameMarkedAsNotFinished: '{0} has been marked as not finished',
     gameUpdatedCost: '{title} now cost {cost}',
     gameListUpdated: '{0} and {1}.',
+    statsAverageCost: 'Average cost',
+    statsTotalCost: 'Total cost',
+    statsAverageTime: 'Average played time',
+    statsTotalTime: 'Total played time',
+    statsAverageCostTime: 'Average cost / hour',
   },
   errors: {
     priceOutOfBounds: 'The value must be between 0 and 999999999.',
